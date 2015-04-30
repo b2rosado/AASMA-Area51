@@ -33,7 +33,6 @@ public class EnemyShooting : MonoBehaviour
 		playerHealth = player.gameObject.GetComponent<PlayerHealth>();
 		drone = GameObject.FindGameObjectWithTag(Tags.drone).transform;
 		droneHealth = drone.gameObject.GetComponent<DroneHealth>();
-		target = drone;
 		hash = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>();
 		eAI = GetComponent<EnemyAI> ();
 		

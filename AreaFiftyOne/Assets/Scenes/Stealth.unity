@@ -3445,7 +3445,6 @@ GameObject:
   - 114: {fileID: 89581605}
   - 114: {fileID: 89581604}
   - 114: {fileID: 89581603}
-  - 114: {fileID: 89581612}
   m_Layer: 0
   m_Name: char_robotGuard_002
   m_TagString: Enemy
@@ -3474,7 +3473,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 89581601}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -3611,17 +3610,6 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &89581612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 89581601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fdd21b69cbf6d04397182c9e33b1732, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &93658125
 GameObject:
   m_ObjectHideFlags: 0
@@ -9179,7 +9167,6 @@ GameObject:
   - 114: {fileID: 333453617}
   - 114: {fileID: 333453616}
   - 114: {fileID: 333453615}
-  - 114: {fileID: 333453624}
   m_Layer: 0
   m_Name: char_robotGuard_003
   m_TagString: Enemy
@@ -9208,7 +9195,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 333453613}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -9345,17 +9332,6 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &333453624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 333453613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fdd21b69cbf6d04397182c9e33b1732, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &334140433
 GameObject:
   m_ObjectHideFlags: 0
@@ -24234,7 +24210,6 @@ GameObject:
   - 114: {fileID: 894887553}
   - 114: {fileID: 894887552}
   - 114: {fileID: 894887551}
-  - 114: {fileID: 894887560}
   m_Layer: 0
   m_Name: char_robotGuard_001
   m_TagString: Enemy
@@ -24400,17 +24375,6 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &894887560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 894887549}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fdd21b69cbf6d04397182c9e33b1732, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &905650082
 GameObject:
   m_ObjectHideFlags: 0
@@ -53580,6 +53544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  droneDead: 0
 --- !u!1 &1795292203
 GameObject:
   m_ObjectHideFlags: 0

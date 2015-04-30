@@ -64,7 +64,6 @@ public class EnemyAI : MonoBehaviour
 		else if(ammunitionQt < MAX_AMMUNITION && isNearAmmo())
 			TakeAmmunition();
 		else if (ammunitionQt > 0 && enemySight.playerInSight && playerHealth.health > 0){
-			Debug.Log(ammunitionQt);
 			if(isCloseEnough())
 				Shooting ();
 			else
@@ -97,10 +96,8 @@ public class EnemyAI : MonoBehaviour
 
 	bool isNearAmmo(){
 		int dist = (int)Vector3.Distance (ammuntionLocation, transform.position);
-		if(dist < 3){
-			Debug.Log("near ammunition");
+		if(dist < 3)
 			return true;
-		}
 		return false;
 	}
 	void TakeAmmunition() {
