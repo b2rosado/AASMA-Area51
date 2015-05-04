@@ -3,22 +3,28 @@ using System.Collections;
 
 public class EnemySight : MonoBehaviour
 {
-	public float fieldOfViewAngle = 100f;				// Number of degrees, centred on forward, for the enemy see.
-    public bool playerInSight;							// Whether or not the player is currently sighted.
-	public Vector3 personalLastSighting;				// Last place this enemy spotted the player.
+	public float fieldOfViewAngle = 100f;			// Number of degrees, centred on forward, for the enemy see.
+	public Vector3 personalLastSighting;			// Last place this enemy spotted the player.
 	
 	
-	private NavMeshAgent nav;							// Reference to the NavMeshAgent component.
-	private SphereCollider col;							// Reference to the sphere collider trigger component.
-	private Animator anim;								// Reference to the Animator.
+	private NavMeshAgent nav;						// Reference to the NavMeshAgent component.
+	private SphereCollider col;						// Reference to the sphere collider trigger component.
+	private Animator anim;							// Reference to the Animator.
 	private LastPlayerSighting lastPlayerSighting;	// Reference to last global sighting of the player.
-    private GameObject player;							// Reference to the player.
-	private Animator playerAnim;						// Reference to the player's animator component.
+    private GameObject player;						// Reference to the player.
+	private Animator playerAnim;					// Reference to the player's animator component.
 	private PlayerHealth playerHealth;				// Reference to the player's health script.
 	private HashIDs hash;							// Reference to the HashIDs.
-	private Vector3 previousSighting;					// Where the player was sighted last frame.
-	
-	
+	private Vector3 previousSighting;				// Where the player was sighted last frame.
+	public bool playerInSight;						// Whether or not the player is currently sighted.
+	private EnemyAI ai;
+	private GameObject[] ammunitions;
+	public bool ammunitionInSight;
+
+	private GameObject[] laserSwitches;
+	public GameObject currentSwitch;
+	public bool switchInSight;
+
 	void Awake ()
 	{
 		// Setting up the references.
@@ -27,9 +33,12 @@ public class EnemySight : MonoBehaviour
 		anim = GetComponent<Animator>();
 		lastPlayerSighting = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<LastPlayerSighting>();
 		player = GameObject.FindGameObjectWithTag(Tags.player);
+		ammunitions = GameObject.FindGameObjectsWithTag(Tags.ammunition);
+		laserSwitches = GameObject.FindGameObjectsWithTag(Tags.laserSwitch);
 		playerAnim = player.GetComponent<Animator>();
 		playerHealth = player.GetComponent<PlayerHealth>();
 		hash = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>();
+		ai = transform.GetComponent<EnemyAI>();
 		
 		// Set the personal sighting and the previous sighting to the reset position.
 		personalLastSighting = lastPlayerSighting.resetPosition;
@@ -48,7 +57,7 @@ public class EnemySight : MonoBehaviour
 		previousSighting = lastPlayerSighting.position;
 		
 		// If the player is alive...
-		if(playerHealth.health > 0f)
+		if(playerHealth.health > 0f && ai.ammunitionQt > 0)
 			// ... set the animator parameter to whether the player is in sight or not.
 			anim.SetBool(hash.playerInSightBool, playerInSight);
 		else
@@ -101,7 +110,40 @@ public class EnemySight : MonoBehaviour
 					// ... set the last personal sighting of the player to the player's current position.
 					personalLastSighting = player.transform.position;
 			}
-        }
+		}
+		foreach(GameObject ammo in ammunitions)
+			if(other.gameObject == ammo){
+				ammunitionInSight = false;
+				// Create a vector from the enemy to the player and store the angle between it and forward.
+				Vector3 direction = other.transform.position - transform.position;
+				float angle = Vector3.Angle(direction, transform.forward);
+				
+				// If the angle between forward and where the player is, is less than half the angle of view...
+				if(angle < fieldOfViewAngle * 0.5f){
+					RaycastHit hit;
+					if(Physics.Raycast(transform.position + transform.up, direction.normalized, out hit, col.radius))
+						if(hit.collider.gameObject == ammo)
+							ammunitionInSight = true;
+				}
+			}
+
+		foreach(GameObject laserSwitch in laserSwitches)
+			if(other.gameObject == laserSwitch){
+				switchInSight = false;
+				// Create a vector from the enemy to the player and store the angle between it and forward.
+				Vector3 direction = other.transform.position - transform.position;
+				float angle = Vector3.Angle(direction, transform.forward);
+				
+				// If the angle between forward and where the player is, is less than half the angle of view...
+				if(angle < fieldOfViewAngle * 0.5f){
+					RaycastHit hit;
+					if(Physics.Raycast(transform.position + transform.up, direction.normalized, out hit, col.radius))
+						if(hit.collider.gameObject == laserSwitch){
+							switchInSight = true;
+							currentSwitch = other.gameObject;
+						}
+				}
+			}
     }
 	
 	

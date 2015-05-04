@@ -30,7 +30,7 @@ public class EnemyAI : MonoBehaviour
 
 	// Ammunition
 	private const int MAX_AMMUNITION = 4; 
-	private const float AMMUNITION_TAKE_DURATION = 0.4f;
+	private const float AMMUNITION_TAKE_DURATION = 1.5f;
 	public int ammunitionQt = MAX_AMMUNITION;
 	public Vector3 ammuntionLocation;
 	private float ammunitionTakeStart;
@@ -61,10 +61,12 @@ public class EnemyAI : MonoBehaviour
 		//reactive loop
 		if (energy.value < 10)
 			Resting ();
-		else if(ammunitionQt < MAX_AMMUNITION && isNearAmmo())
+		else if(ammunitionQt < MAX_AMMUNITION && enemySight.ammunitionInSight)
 			TakeAmmunition();
+		else if(enemySight.switchInSight)
+			ActivateLaser();
 		else if (ammunitionQt > 0 && enemySight.playerInSight && playerHealth.health > 0){
-			if(isCloseEnough())
+			if(isCloseEnough(player.position, 2))
 				Shooting ();
 			else
 				Chasing ();
@@ -72,9 +74,9 @@ public class EnemyAI : MonoBehaviour
 			Patrolling ();
 	}
 
-	bool isCloseEnough(){
-		int dist = (int)Vector3.Distance (player.position, transform.position);
-		if(dist < 2)
+	bool isCloseEnough(Vector3 pos, int distance){
+		int dist = (int)Vector3.Distance (player.position, pos);
+		if(dist < distance)
 			return true;
 		return false;
 	}
@@ -94,22 +96,23 @@ public class EnemyAI : MonoBehaviour
 		}
 	}
 
-	bool isNearAmmo(){
-		int dist = (int)Vector3.Distance (ammuntionLocation, transform.position);
-		if(dist < 3)
-			return true;
-		return false;
+	void ActivateLaser(){
+		Transform screenTransf = enemySight.currentSwitch.GetComponentInChildren<Transform>();
+
+		Renderer screen = screenTransf.Find("prop_switchUnit_screen_001").renderer;
+		if(screen.material.name == "prop_switchUnit_screen_unlocked_mat (Instance)")
+			nav.destination = enemySight.currentSwitch.transform.position;
 	}
+
 	void TakeAmmunition() {
 		nav.speed = chaseSpeed;
 		nav.destination = ammuntionLocation;
-
 		if(nav.remainingDistance < 1){
 			if(!takingAmmunition){
 				takingAmmunition = true;
 				ammunitionTakeStart = Time.time;
 			}else if(Time.time - ammunitionTakeStart > AMMUNITION_TAKE_DURATION){
-				ammunitionQt = Mathf.Min(ammunitionQt+1, MAX_AMMUNITION);
+				ammunitionQt = MAX_AMMUNITION;
 				takingAmmunition = false;
 			}
 		}
