@@ -95,4 +95,9 @@ public class PlayerHealth : MonoBehaviour
 		// Decrement the player's health by amount.
         health -= amount;
     }
+
+	public void AddHealth(float h) {
+		if (this.health + h <= 100)
+			health += h;
+	}
 }
