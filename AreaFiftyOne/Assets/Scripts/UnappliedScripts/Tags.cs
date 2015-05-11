@@ -14,4 +14,5 @@ public class Tags : MonoBehaviour
 	public const string enemy = "Enemy";
 	public const string laserSwitch = "LaserSwitch";
 	public const string ammunition = "Ammunition";
+	public const string health = "Health";
 }

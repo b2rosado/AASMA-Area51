@@ -84,23 +84,33 @@ public class EnemyShooting : MonoBehaviour
 	
 	void Shoot ()
 	{
-		if (this.eAI.ammunitionQt > 0) {
-			// The enemy is shooting.
-			shooting = true;
+		if (this.eAI.ammunitionQt > 0)
+			if(drone != null && droneHealth.health > 0){
+				shooting = true;
+				float fractionalDistance = (col.radius - Vector3.Distance (transform.position, drone.position)) / col.radius;
+				float damage = scaledDamage * fractionalDistance + minimumDamage;
+				
+				droneHealth.TakeDamage (damage);
+				
+				ShotEffects ();
+				this.eAI.ammunitionQt--;
+			}else{
+				// The enemy is shooting.
+				shooting = true;
 
-			// The fractional distance from the player, 1 is next to the player, 0 is the player is at the extent of the sphere collider.
-			float fractionalDistance = (col.radius - Vector3.Distance (transform.position, player.position)) / col.radius;
+				// The fractional distance from the player, 1 is next to the player, 0 is the player is at the extent of the sphere collider.
+				float fractionalDistance = (col.radius - Vector3.Distance (transform.position, player.position)) / col.radius;
 
-			// The damage is the scaled damage, scaled by the fractional distance, plus the minimum damage.
-			float damage = scaledDamage * fractionalDistance + minimumDamage;
+				// The damage is the scaled damage, scaled by the fractional distance, plus the minimum damage.
+				float damage = scaledDamage * fractionalDistance + minimumDamage;
 
-			// The player takes damage.
-			playerHealth.TakeDamage (damage);
+				// The player takes damage.
+				playerHealth.TakeDamage (damage);
 
-			// Display the shot effects.
-			ShotEffects ();
-			this.eAI.ammunitionQt--;
-		}
+				// Display the shot effects.
+				ShotEffects ();
+				this.eAI.ammunitionQt--;
+			}
 	}
 	
 	

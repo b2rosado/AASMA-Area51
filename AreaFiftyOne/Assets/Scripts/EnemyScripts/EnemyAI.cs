@@ -31,10 +31,16 @@ public class EnemyAI : MonoBehaviour
 	// Ammunition
 	private const int MAX_AMMUNITION = 4; 
 	private const float AMMUNITION_TAKE_DURATION = 1.5f;
-	public int ammunitionQt = MAX_AMMUNITION;
-	public Vector3 ammuntionLocation;
+	public int ammunitionQt;
 	private float ammunitionTakeStart;
 	private bool takingAmmunition = false;
+
+	// Health
+	private EnemyHealth enemyHealth;
+	private const int MAX_HEALTH = 100; 
+	private const float HEALTH_TAKE_DURATION = 1.5f;
+	private float healthTakeStart;
+	private bool takingHealthPackage = false;
 
 	void Awake ()
 	{
@@ -45,6 +51,7 @@ public class EnemyAI : MonoBehaviour
 		player = GameObject.FindGameObjectWithTag(Tags.player).transform;
 		drone = GameObject.FindGameObjectWithTag(Tags.player).transform;
 		playerHealth = player.GetComponent<PlayerHealth>();
+		enemyHealth = GetComponent<EnemyHealth>();
 		anim = GetComponent<Animator>();
 		hash = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>();
 	}
@@ -61,7 +68,9 @@ public class EnemyAI : MonoBehaviour
 		//reactive loop
 		if (energy.value < 10)
 			Resting ();
-		else if(ammunitionQt < MAX_AMMUNITION && enemySight.ammunitionInSight)
+		else if(takingHealthPackage || enemyHealth.health <= 80 && enemySight.healthInSight)
+			TakeHealthPackage();
+		else if(takingAmmunition || ammunitionQt < MAX_AMMUNITION && enemySight.ammunitionInSight)
 			TakeAmmunition();
 		else if(enemySight.switchInSight)
 			ActivateLaser();
@@ -106,19 +115,30 @@ public class EnemyAI : MonoBehaviour
 
 	void TakeAmmunition() {
 		nav.speed = chaseSpeed;
-		nav.destination = ammuntionLocation;
-		if(nav.remainingDistance < 1){
+		nav.destination = enemySight.currentAmmunition.transform.position;
+		if(nav.remainingDistance < 1.2)
 			if(!takingAmmunition){
-				takingAmmunition = true;
 				ammunitionTakeStart = Time.time;
+				takingAmmunition = true;
 			}else if(Time.time - ammunitionTakeStart > AMMUNITION_TAKE_DURATION){
 				ammunitionQt = MAX_AMMUNITION;
 				takingAmmunition = false;
 			}
-		}
 	}
 	
-	
+	void TakeHealthPackage() {
+		nav.speed = chaseSpeed;
+		nav.destination = enemySight.currentHealthPackage.transform.position;
+		if(nav.remainingDistance < 1.2)
+			if(!takingHealthPackage){
+				healthTakeStart = Time.time;
+				takingHealthPackage = true;
+			}else if(Time.time - healthTakeStart > HEALTH_TAKE_DURATION){
+				enemyHealth.AddHealth(20);
+				takingHealthPackage = false;
+			}
+	}
+
 	void Shooting ()
 	{
 		if (energy.value >= 2) {

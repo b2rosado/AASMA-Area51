@@ -20,10 +20,18 @@ public class EnemySight : MonoBehaviour
 	private EnemyAI ai;
 	private GameObject[] ammunitions;
 	public bool ammunitionInSight;
+	public GameObject currentAmmunition;
 
 	private GameObject[] laserSwitches;
 	public GameObject currentSwitch;
 	public bool switchInSight;
+	
+	private GameObject[] healthPackages;
+	public bool healthInSight;
+	public GameObject currentHealthPackage;
+
+	private GameObject drone;
+	private bool droneInSight;
 
 	void Awake ()
 	{
@@ -33,7 +41,8 @@ public class EnemySight : MonoBehaviour
 		anim = GetComponent<Animator>();
 		lastPlayerSighting = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<LastPlayerSighting>();
 		player = GameObject.FindGameObjectWithTag(Tags.player);
-		ammunitions = GameObject.FindGameObjectsWithTag(Tags.ammunition);
+		ammunitions = 	GameObject.FindGameObjectsWithTag(Tags.ammunition);
+		healthPackages = GameObject.FindGameObjectsWithTag(Tags.health);
 		laserSwitches = GameObject.FindGameObjectsWithTag(Tags.laserSwitch);
 		playerAnim = player.GetComponent<Animator>();
 		playerHealth = player.GetComponent<PlayerHealth>();
@@ -111,6 +120,22 @@ public class EnemySight : MonoBehaviour
 					personalLastSighting = player.transform.position;
 			}
 		}
+		if(drone != null && other.gameObject == drone){
+			droneInSight = false;
+
+			Vector3 direction = other.transform.position - transform.position;
+			float angle = Vector3.Angle(direction, transform.forward);
+
+			if(angle < fieldOfViewAngle * 0.5f){
+				RaycastHit hit;
+				if(Physics.Raycast(transform.position + transform.up, direction.normalized, out hit, col.radius)){
+					if(drone != null && hit.collider.gameObject == drone){
+						droneInSight = true;
+					}
+				}
+			}
+		}
+
 		foreach(GameObject ammo in ammunitions)
 			if(other.gameObject == ammo){
 				ammunitionInSight = false;
@@ -122,10 +147,30 @@ public class EnemySight : MonoBehaviour
 				if(angle < fieldOfViewAngle * 0.5f){
 					RaycastHit hit;
 					if(Physics.Raycast(transform.position + transform.up, direction.normalized, out hit, col.radius))
-						if(hit.collider.gameObject == ammo)
+						if(hit.collider.gameObject == ammo){
 							ammunitionInSight = true;
+							currentAmmunition = other.gameObject;
+						}
 				}
 			}
+
+		foreach(GameObject hp in healthPackages)
+		if(other.gameObject == hp){
+			healthInSight = false;
+			// Create a vector from the enemy to the player and store the angle between it and forward.
+			Vector3 direction = other.transform.position - transform.position;
+			float angle = Vector3.Angle(direction, transform.forward);
+			
+			// If the angle between forward and where the player is, is less than half the angle of view...
+			if(angle < fieldOfViewAngle * 0.5f){
+				RaycastHit hit;
+				if(Physics.Raycast(transform.position + transform.up, direction.normalized, out hit, col.radius))
+				if(hit.collider.gameObject == hp){
+					healthInSight = true;
+					currentHealthPackage = other.gameObject;
+				}
+			}
+		}
 
 		foreach(GameObject laserSwitch in laserSwitches)
 			if(other.gameObject == laserSwitch){

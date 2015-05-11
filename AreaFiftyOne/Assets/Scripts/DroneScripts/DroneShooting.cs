@@ -66,7 +66,7 @@ public class DroneShooting : MonoBehaviour {
 
 	void Update ()
 	{
-		if(guard == null)
+		if(guard == null || guard.gameObject.GetComponent<EnemyHealth> ().health <= 0.0f)
 			shooting = false;
 		// Fade the light out.
 		if(!shooting)
@@ -91,6 +91,9 @@ public class DroneShooting : MonoBehaviour {
 	void Shoot (Collider other)
 	{
 		shooting = true;
+		float shotDuration = 1.0f;
+		float shootingStart = Time.time;
+		while(Time.time - shootingStart < shotDuration){}
 
 		// The player takes damage.
 		transform.LookAt(other.gameObject.transform);
