@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DroneShooting : MonoBehaviour {
 	
-	public float damage = 0.0001f;					// The potential damage per shot.
+	public float damage = 0.01e-20f;					// The potential damage per shot.
 	public AudioClip shotClip;					// An audio clip to play when a shot happens.
 	public float flashIntensity = 3f;					// The intensity of the light when the shot happens.
 	public float fadeSpeed = 1f;						// How fast the light will fade after the shot.
@@ -17,6 +17,8 @@ public class DroneShooting : MonoBehaviour {
 	private bool shooting = false;								// A bool to say whether or not the enemy is currently shooting.
 	private float scaledDamage;							// Amount of damage that is scaled by the distance from the player.
 	private GameObject guard;
+	private const float SHOT_DURATION = 2f;
+	private float shotTakeStart;
 
 	public bool getShootingStatus() {
 		return shooting;
@@ -57,7 +59,9 @@ public class DroneShooting : MonoBehaviour {
 					if(hit.collider.gameObject.tag == Tags.enemy)
 					{
 						guard = other.gameObject;
-						Shoot(other);
+						if(!shooting) {
+							Shoot(other);
+						}
 					}
 				}
 			}
@@ -91,10 +95,7 @@ public class DroneShooting : MonoBehaviour {
 	void Shoot (Collider other)
 	{
 		shooting = true;
-		float shotDuration = 1.0f;
-		float shootingStart = Time.time;
-		while(Time.time - shootingStart < shotDuration){}
-
+		if(Time.time - shotTakeStart > SHOT_DURATION)
 		// The player takes damage.
 		transform.LookAt(other.gameObject.transform);
 		enemyHealth = other.gameObject.GetComponent<EnemyHealth> ();

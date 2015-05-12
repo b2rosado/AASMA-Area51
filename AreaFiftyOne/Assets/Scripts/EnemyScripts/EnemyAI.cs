@@ -68,6 +68,8 @@ public class EnemyAI : MonoBehaviour
 		//reactive loop
 		if (energy.value < 10)
 			Resting ();
+		else if(enemySight.playerInSight && ammunitionQt == 0)
+			RunAway();
 		else if(takingHealthPackage || enemyHealth.health <= 80 && enemySight.healthInSight)
 			TakeHealthPackage();
 		else if(takingAmmunition || ammunitionQt < MAX_AMMUNITION && enemySight.ammunitionInSight)
@@ -88,6 +90,11 @@ public class EnemyAI : MonoBehaviour
 		if(dist < distance)
 			return true;
 		return false;
+	}
+
+	void RunAway() {
+		nav.speed = chaseSpeed;
+		nav.destination += -player.forward * 6 * Time.deltaTime;
 	}
 	
 	void Resting(){

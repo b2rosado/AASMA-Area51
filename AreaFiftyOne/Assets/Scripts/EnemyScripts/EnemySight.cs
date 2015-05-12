@@ -31,7 +31,7 @@ public class EnemySight : MonoBehaviour
 	public GameObject currentHealthPackage;
 
 	private GameObject drone;
-	private bool droneInSight;
+	private bool droneInSight = false;
 
 	void Awake ()
 	{

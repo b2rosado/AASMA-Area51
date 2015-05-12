@@ -3,8 +3,8 @@ using System.Collections;
 
 public class DroneHealth : MonoBehaviour {
 
-	public float health = 100f;							// How much health the player has left.
-
+	public float health;							// How much health the player has left.
+	private const float HEALTH = 200f;
 	private Animator anim;								// Reference to the animator component.
 	private HashIDs hash;							// Reference to the HashIDs.
 	private float timer;								// A timer for counting to the reset of the level once the player is dead.
@@ -16,6 +16,7 @@ public class DroneHealth : MonoBehaviour {
 		// Setting up the references.
 		anim = GetComponent<Animator>();
 		hash = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>();
+		health = HEALTH;
 	}
 
 	void Update ()
@@ -66,5 +67,10 @@ public class DroneHealth : MonoBehaviour {
 	{
 		// Decrement the drone's health by amount.
 		health -= amount;
+	}
+
+	public void AddHealth(float h) {
+		if (this.health + h <= HEALTH)
+			health += h;
 	}
 }
