@@ -94,7 +94,7 @@ public class EnemyAI : MonoBehaviour
 
 	void RunAway() {
 		nav.speed = chaseSpeed;
-		nav.destination += -player.forward * 6 * Time.deltaTime;
+		nav.destination = player.forward * 6;
 	}
 	
 	void Resting(){
