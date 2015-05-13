@@ -27,7 +27,6 @@ public class EnemySight : MonoBehaviour
 	
 	private GameObject[] healthPackages;
 	public bool healthInSight;
-	public GameObject currentHealthPackage;
 
 	private GameObject drone;
 	private bool droneInSight = false;
@@ -166,7 +165,7 @@ public class EnemySight : MonoBehaviour
 				if(Physics.Raycast(transform.position + transform.up, direction.normalized, out hit, col.radius))
 				if(hit.collider.gameObject == hp){
 					healthInSight = true;
-					currentHealthPackage = other.gameObject;
+					ai.enemyBeliefs.addHealthPackage(hp.transform.position);
 				}
 			}
 		}
@@ -185,6 +184,7 @@ public class EnemySight : MonoBehaviour
 						if(hit.collider.gameObject == laserSwitch){
 							switchInSight = true;
 							currentSwitch = other.gameObject;
+							ai.enemyBeliefs.addSwitch(laserSwitch.transform.position);
 						}
 				}
 			}

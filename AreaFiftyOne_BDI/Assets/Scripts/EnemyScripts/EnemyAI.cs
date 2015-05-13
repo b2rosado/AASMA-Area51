@@ -80,7 +80,7 @@ public class EnemyAI : MonoBehaviour
 		// loosing energy
 		if (Time.time > nextEnergyTake && !resting) {
 			nextEnergyTake = Time.time + energyTakeRate;
-			energy.TakeEnergy((int)nav.speed);
+			energy.TakeEnergy((int)nav.speed/2);
 		}
 
 		//reactive loop
@@ -105,16 +105,20 @@ public class EnemyAI : MonoBehaviour
 		// BDI Loop
 		List<int> D = options();
 		int I = filter(D);
-		//Debug.Log(I);
+		enemyBeliefs.reconsider = false;
+		//Debug.Log(I + " speed: "+nav.speed);
 		Stack<int> pi = plan(I);
 		while(pi.Count > 0){
 			int action = pi.Pop();
 			//Debug.Log("action: "+action);
 			execute(action);
-			if(reconsider(I)){
+			if(enemyBeliefs.reconsider){
 				D = options();
 				I = filter (D);
+				enemyBeliefs.reconsider = false;
 			}
+			if(!sound(I, pi))
+				pi = plan(I);
 		}
 	}
 
@@ -122,23 +126,19 @@ public class EnemyAI : MonoBehaviour
 	List<int> options(){
 		List<int> opt = new List<int>();
 
-		if(energy.value < 10)
+		if(energy.value < 40)
 			opt.Add(REST);
-		if(enemySight.playerInSight)
-			opt.Add(RUN_AWAY);
-		if(enemyHealth.health <= 80)
+		if(takingHealthPackage || enemyHealth.health <= 80)
 			opt.Add(GET_HP);
-		if(enemyBeliefs.knowsAmmunitionLocation() && ammunitionQt < 2)
+		if(takingAmmunition || ammunitionQt < 2)
 			opt.Add(GET_AMMUNITION);
 		if(enemySight.switchInSight)
 			opt.Add(ACTIVATE_LASER);
-		if (enemySight.playerInSight)
+		if(enemySight.playerInSight)
 			opt.Add(KILL_ETHAN);
 		opt.Add(PATROL);
 		
 		return opt;
-		/*apanhar vida
-		matar drone*/
 	}
 	
 	int filter(List<int> desires){
@@ -148,26 +148,20 @@ public class EnemyAI : MonoBehaviour
 		foreach(int d in desires){
 			switch(d){
 			case GET_AMMUNITION : 
-				if(takingAmmunition || !enemySight.playerInSight || ammunitionQt < 1)
+				if(enemyBeliefs.knowsAmmunitionLocation() && (!enemySight.playerInSight || ammunitionQt < 1))
 					return GET_AMMUNITION;
 				break;
 			case REST :
-				if(!enemySight.playerInSight)
+				if(!enemySight.playerInSight || energy.value < 10)
 					return REST;
 				break;
-			case RUN_AWAY :
-				if(ammunitionQt < 1)
-					return RUN_AWAY;
-				break;
 			case GET_HP :
-				if(takingHealthPackage || enemySight.healthInSight)
+				if(enemyBeliefs.knowsHealthPackageLocation())
 					return GET_HP;
 				break;
 			case KILL_ETHAN :
 				if(ammunitionQt > 0)
 					return KILL_ETHAN;
-				break;
-			case KILL_DRONE :
 				break;
 			case ACTIVATE_LASER :
 				if(isLaserDeactivated())
@@ -175,7 +169,7 @@ public class EnemyAI : MonoBehaviour
 				break;
 			}
 		}
-		return 0;
+		return PATROL;
 	}
 	
 	Stack<int> plan(int intention){
@@ -183,6 +177,10 @@ public class EnemyAI : MonoBehaviour
 		if(intention == KILL_ETHAN){
 			if(isCloseEnough(player.position, 2))
 				actions.Push(SHOOT_ETHAN);
+			else{
+				actions.Push(SHOOT_ETHAN);
+				actions.Push(CHASE_ETHAN);
+			}
 		}else
 			actions.Push(intention);
 		return actions;
@@ -197,6 +195,7 @@ public class EnemyAI : MonoBehaviour
 			Resting();
 			break;
 		case GET_HP :
+			TakeHealthPackage();
 			break;
 		case KILL_DRONE :
 			break;
@@ -215,8 +214,11 @@ public class EnemyAI : MonoBehaviour
 		}
 	}
 	
-	bool reconsider(int i){
-		return false;
+	bool sound(int intention, Stack<int> plan){
+		if(intention == KILL_ETHAN)
+			return plan.Contains(SHOOT_ETHAN) || plan.Count == 0;
+		else
+			return plan.Contains(intention) || plan.Count == 0;
 	}
 
 	bool isCloseEnough(Vector3 pos, int distance){
@@ -224,11 +226,6 @@ public class EnemyAI : MonoBehaviour
 		if(dist < distance)
 			return true;
 		return false;
-	}
-
-	void RunAway() {
-		nav.speed = chaseSpeed;
-		nav.destination = player.forward * 6;
 	}
 	
 	void Resting(){
@@ -273,7 +270,7 @@ public class EnemyAI : MonoBehaviour
 	
 	void TakeHealthPackage() {
 		nav.speed = chaseSpeed;
-		nav.destination = enemySight.currentHealthPackage.transform.position;
+		nav.destination = enemyBeliefs.getClosestHealthPackage();
 		if(nav.remainingDistance < 1.2)
 			if(!takingHealthPackage){
 				healthTakeStart = Time.time;

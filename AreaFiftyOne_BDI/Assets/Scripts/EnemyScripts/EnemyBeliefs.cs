@@ -7,28 +7,36 @@ public class EnemyBeliefs{
 	List<Vector3> switchLocations = new List<Vector3>();	
 	Vector3 lastPlayerPosition = new Vector3(0,0,0);
 	Transform guard;
+	public bool reconsider = false;
 
 	public EnemyBeliefs(Transform guardTransform){
 		guard = guardTransform;
 	}
 
 	public void addAmmunition(Vector3 pos){
-		if(!ammunitionLocations.Contains(pos))
+		if(!ammunitionLocations.Contains(pos)){
 			ammunitionLocations.Add(pos);
+			reconsider = true;
+		}
 	}
 
 	public void addHealthPackage(Vector3 pos){
-		if(!healthPackageLocations.Contains(pos))
+		if(!healthPackageLocations.Contains(pos)){
 			healthPackageLocations.Add(pos);
+			reconsider = true;
+		}
 	}
 
 	public void addSwitch(Vector3 pos){
-		if(!switchLocations.Contains(pos))
+		if(!switchLocations.Contains(pos)){
 			switchLocations.Add(pos);
+			reconsider = true;
+		}
 	}
 
 	public void setLastPlayerPosition(Vector3 pos){
 		lastPlayerPosition = pos;
+		reconsider = true;
 	}
 
 	public Vector3 getClosestAmmunition(){

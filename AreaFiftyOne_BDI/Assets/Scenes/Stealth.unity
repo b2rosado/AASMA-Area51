@@ -3790,7 +3790,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 89581601}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -3850,7 +3850,6 @@ MonoBehaviour:
   currentSwitch: {fileID: 0}
   switchInSight: 0
   healthInSight: 0
-  currentHealthPackage: {fileID: 0}
 --- !u!195 &89581607
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -10233,7 +10232,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 333453613}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -10293,7 +10292,6 @@ MonoBehaviour:
   currentSwitch: {fileID: 0}
   switchInSight: 0
   healthInSight: 0
-  currentHealthPackage: {fileID: 0}
 --- !u!195 &333453619
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -27596,7 +27594,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 894887549}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -27656,7 +27654,6 @@ MonoBehaviour:
   currentSwitch: {fileID: 0}
   switchInSight: 0
   healthInSight: 0
-  currentHealthPackage: {fileID: 0}
 --- !u!195 &894887555
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -31098,7 +31095,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1024605604}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -31158,7 +31155,6 @@ MonoBehaviour:
   currentSwitch: {fileID: 0}
   switchInSight: 0
   healthInSight: 0
-  currentHealthPackage: {fileID: 0}
 --- !u!195 &1024605611
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -45924,7 +45920,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1332124337}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -45984,7 +45980,6 @@ MonoBehaviour:
   currentSwitch: {fileID: 0}
   switchInSight: 0
   healthInSight: 0
-  currentHealthPackage: {fileID: 0}
 --- !u!195 &1332124343
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -46472,7 +46467,6 @@ MonoBehaviour:
   currentSwitch: {fileID: 0}
   switchInSight: 0
   healthInSight: 0
-  currentHealthPackage: {fileID: 0}
 --- !u!195 &1342607888
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -62092,7 +62086,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1854483760}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -62152,7 +62146,6 @@ MonoBehaviour:
   currentSwitch: {fileID: 0}
   switchInSight: 0
   healthInSight: 0
-  currentHealthPackage: {fileID: 0}
 --- !u!195 &1854483767
 NavMeshAgent:
   m_ObjectHideFlags: 0

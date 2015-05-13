@@ -21,7 +21,9 @@ public class EnemyShooting : MonoBehaviour
 	private bool shooting;								// A bool to say whether or not the enemy is currently shooting.
 	private float scaledDamage;							// Amount of damage that is scaled by the distance from the player.
 	private EnemyAI eAI;
-	
+
+	public bool targetDrone;
+
 	void Awake ()
 	{
 		// Setting up the references.
@@ -85,7 +87,7 @@ public class EnemyShooting : MonoBehaviour
 	void Shoot ()
 	{
 		if (this.eAI.ammunitionQt > 0)
-			if(drone != null && droneHealth.health > 0){
+			if(drone != null && droneHealth.health > 0 && targetDrone){
 				shooting = true;
 				float fractionalDistance = (col.radius - Vector3.Distance (transform.position, drone.position)) / col.radius;
 				float damage = scaledDamage * fractionalDistance + minimumDamage;
