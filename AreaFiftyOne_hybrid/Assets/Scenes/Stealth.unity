@@ -3800,6 +3800,7 @@ MonoBehaviour:
   - {fileID: 1459502198}
   - {fileID: 748442390}
   - {fileID: 1140272845}
+  patrollingArea: {x: 0, y: 0, z: 0}
   ammunitionQt: 1
 --- !u!114 &89581604
 MonoBehaviour:
@@ -6874,7 +6875,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 207140284}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -30, y: 0, z: 28}
+  m_LocalPosition: {x: -30.6751022, y: 0, z: 28.1056347}
   m_LocalScale: {x: .5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 784414176}
@@ -10242,6 +10243,7 @@ MonoBehaviour:
   - {fileID: 2117601013}
   - {fileID: 601470788}
   - {fileID: 1212534770}
+  patrollingArea: {x: 0, y: 0, z: 0}
   ammunitionQt: 1
 --- !u!114 &333453616
 MonoBehaviour:
@@ -27604,6 +27606,7 @@ MonoBehaviour:
   - {fileID: 1021989533}
   - {fileID: 1170602005}
   - {fileID: 1319280026}
+  patrollingArea: {x: 0, y: 0, z: 0}
   ammunitionQt: 1
 --- !u!114 &894887552
 MonoBehaviour:
@@ -31068,7 +31071,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1024605604}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.9280586, y: 0, z: 22.1056423}
+  m_LocalPosition: {x: -17.3773937, y: 0, z: 28.8771667}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 834475751}
@@ -31105,6 +31108,7 @@ MonoBehaviour:
   - {fileID: 1021989533}
   - {fileID: 1170602005}
   - {fileID: 1319280026}
+  patrollingArea: {x: 0, y: 0, z: 0}
   ammunitionQt: 1
 --- !u!114 &1024605608
 MonoBehaviour:
@@ -45899,7 +45903,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1332124338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45930,6 +45934,7 @@ MonoBehaviour:
   - {fileID: 2117601013}
   - {fileID: 601470788}
   - {fileID: 1212534770}
+  patrollingArea: {x: 0, y: 0, z: 0}
   ammunitionQt: 1
 --- !u!114 &1332124340
 MonoBehaviour:
@@ -46417,6 +46422,7 @@ MonoBehaviour:
   - {fileID: 2117601013}
   - {fileID: 601470788}
   - {fileID: 1212534770}
+  patrollingArea: {x: 0, y: 0, z: 0}
   ammunitionQt: 1
 --- !u!114 &1342607885
 MonoBehaviour:
@@ -61196,7 +61202,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1832948211}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.9021397, y: 0, z: 26.9811096}
+  m_LocalPosition: {x: -15.0401516, y: 0, z: 26.9811096}
   m_LocalScale: {x: 1.25, y: 2, z: 1.25}
   m_Children: []
   m_Father: {fileID: 14668600}
@@ -61235,7 +61241,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1832948211}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: .5
@@ -62051,7 +62057,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1854483761
 Transform:
   m_ObjectHideFlags: 0
@@ -62096,6 +62102,7 @@ MonoBehaviour:
   - {fileID: 2117601013}
   - {fileID: 601470788}
   - {fileID: 1212534770}
+  patrollingArea: {x: 0, y: 0, z: 0}
   ammunitionQt: 1
 --- !u!114 &1854483764
 MonoBehaviour:

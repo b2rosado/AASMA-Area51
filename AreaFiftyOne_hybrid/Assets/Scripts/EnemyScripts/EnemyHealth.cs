@@ -10,12 +10,14 @@ public class EnemyHealth : MonoBehaviour {
 	private float timer;								// A timer for counting to the reset of the level once the player is dead.
 	private bool enemyDead;							// A bool to show if the player is dead or not.
 	private float destroyTime = 3f;
+	private EnemyAI ai;
 	
 	void Awake ()
 	{
 		// Setting up the references.
 		anim = GetComponent<Animator>();
 		hash = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>();
+		ai = transform.gameObject.GetComponent<EnemyAI>();
 	}
 	
 	
@@ -58,10 +60,11 @@ public class EnemyHealth : MonoBehaviour {
 
 	void DestroyEnemy() {
 		timer += Time.deltaTime;
-		
 		//If the timer is greater than or equal to the time before the level resets...
-		if(timer >= destroyTime)
+		if(timer >= destroyTime){
+			Cooperation.notPatrolling(ai.patrollingArea);
 			Destroy (this.gameObject);
+		}
 	}
 	
 	

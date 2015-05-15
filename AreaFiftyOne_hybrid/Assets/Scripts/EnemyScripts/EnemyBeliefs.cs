@@ -85,7 +85,7 @@ public class EnemyBeliefs{
 	}
 
 	public void setAreaToPatrol(Vector3 pos){
-		Debug.Log("setAreaToPatrol" + pos);
+		//Debug.Log("setAreaToPatrol" + pos);
 		Cooperation.patrolling(areaToPatrol, pos);
 		areaToPatrol = pos;
 	}

@@ -10,7 +10,6 @@ public static class Cooperation{
 
 	public static void setup(){
 		if(!init){
-			Debug.Log("setup called");
 			guardsGameObject = GameObject.FindGameObjectsWithTag(Tags.enemy);
 			foreach(GameObject guard in guardsGameObject)
 				guardsAI.Add(guard.GetComponent<EnemyAI>());
@@ -35,13 +34,21 @@ public static class Cooperation{
 			g.enemyBeliefs.setLastPlayerPosition(pos);
 		}
 	}
-
+	
 	public static void patrolling(Vector3 oldPos, Vector3 newPos){
 		for(int i=0; i<areas.Length; i++)
-			if(areas[i] == oldPos)
+			if(areas[i] == oldPos && !oldPos.Equals(new Vector3(0,0,0)))
 				areasOcupation[i]--;
 			else if(areas[i] == newPos)
 				areasOcupation[i]++;
+	}
+
+	public static void notPatrolling(Vector3 pos){
+		for(int i=0; i<areas.Length; i++)
+			if(areas[i] == pos){
+				areasOcupation[i]--;
+				return;
+			}
 	}
 
 	public static Vector3 getLessOcupiedArea(){
@@ -53,11 +60,30 @@ public static class Cooperation{
 				lessOcupied = i;
 			}
 		}
-		Debug.Log("lessOcupiedArea");
 		return areas[lessOcupied];
 	}
 
-	public static void askForHelp(Vector3 pos){
+	/*public static Vector3 getMostOcupiedArea(){
+		int count = int.MinValue;
+		int mostOcupied = int.MaxValue;
+		for(int i=0; i<areasOcupation.Length; i++){
+			if(areasOcupation[i] > count){
+				count = areasOcupation[i];
+				mostOcupied = i;
+			}
+		}
+		return areas[mostOcupied];
+	}
 
+	public static void rearrangePatrolling(){
+		for(int i=0; i<guardsAI.Count; i++)
+			if(guardsAI[i].patrollingArea.Equals(getMostOcupiedArea()){
+
+			}
+	}*/
+
+	public static void askForHelp(Vector3 pos){
+		foreach(EnemyAI ai in guardsAI)
+			ai.goHelp(pos);
 	}
 }
