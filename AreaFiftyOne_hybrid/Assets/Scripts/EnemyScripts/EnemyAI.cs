@@ -23,6 +23,10 @@ public class EnemyAI : MonoBehaviour
 	private Vector3 nextPosition;
 	private float patrollingStartTime;
 	private const float PATROLLING_DURATION = 2.5f;
+	public Vector3 patrollingArea = new Vector3(0,0,0);
+
+	private bool helping = false;
+	private Vector3 helpingPos;
 
 	// Energy
 	private Energy energy;
@@ -60,6 +64,8 @@ public class EnemyAI : MonoBehaviour
 
 	private const int CHASE_ETHAN = 9;
 	private const int SHOOT_ETHAN = 10;
+	private const int GO_HELP = 11;
+	private const int ASK_HELP = 12;
 
 	void Awake ()
 	{
@@ -88,41 +94,41 @@ public class EnemyAI : MonoBehaviour
 		}
 
 		//reactive loop
-		/*if (energy.value < 10)
-			Resting ();
-		else if(enemySight.playerInSight && ammunitionQt == 0)
-			RunAway();
-		else if(takingHealthPackage || enemyHealth.health <= 80 && enemySight.healthInSight)
-			TakeHealthPackage();
-		else if(takingAmmunition || ammunitionQt < MAX_AMMUNITION && enemySight.ammunitionInSight)
-			TakeAmmunition();
-		else if(enemySight.switchInSight)
-			ActivateLaser();
-		else if (ammunitionQt > 0 && enemySight.playerInSight && playerHealth.health > 0){
-			if(isCloseEnough(player.position, 2))
-				Shooting ();
-			else
-				Chasing ();
-		}else
-			Patrolling ();*/
-
-		// BDI Loop
-		List<int> D = options();
-		int I = filter(D);
-		enemyBeliefs.reconsider = false;
-		//Debug.Log(I + " speed: "+nav.speed);
-		Stack<int> pi = plan(I);
-		while(pi.Count > 0){
-			int action = pi.Pop();
-			//Debug.Log("action: "+action);
-			execute(action);
-			if(enemyBeliefs.reconsider){
-				D = options();
-				I = filter (D);
-				enemyBeliefs.reconsider = false;
+		if(enemyHealth.health < 30){
+			if (energy.value < 10)
+				Resting ();
+			else if(takingHealthPackage || enemyHealth.health <= 80 && enemySight.healthInSight)
+				TakeHealthPackage();
+			else if(takingAmmunition || ammunitionQt < MAX_AMMUNITION && enemySight.ammunitionInSight)
+				TakeAmmunition();
+			else if(enemySight.switchInSight)
+				ActivateLaser();
+			else if (ammunitionQt > 0 && enemySight.playerInSight && playerHealth.health > 0){
+				if(isCloseEnough(player.position, 2))
+					Shooting ();
+				else
+					Chasing ();
+			}else
+				Patrolling ();
+		}else{
+			// BDI Loop
+			List<int> D = options();
+			int I = filter(D);
+			enemyBeliefs.reconsider = false;
+			//Debug.Log(I + " speed: "+nav.speed);
+			Stack<int> pi = plan(I);
+			while(pi.Count > 0){
+				int action = pi.Pop();
+				//Debug.Log("action: "+action);
+				execute(action);
+				if(enemyBeliefs.reconsider){
+					D = options();
+					I = filter (D);
+					enemyBeliefs.reconsider = false;
+				}
+				if(!sound(I, pi))
+					pi = plan(I);
 			}
-			if(!sound(I, pi))
-				pi = plan(I);
 		}
 	}
 
@@ -140,6 +146,8 @@ public class EnemyAI : MonoBehaviour
 			opt.Add(ACTIVATE_LASER);
 		if(enemySight.playerInSight)
 			opt.Add(KILL_ETHAN);
+		if(helping && !enemySight.playerInSight)
+			opt.Add(GO_HELP);
 		opt.Add(PATROL);
 		
 		return opt;
@@ -151,6 +159,9 @@ public class EnemyAI : MonoBehaviour
 		
 		foreach(int d in desires){
 			switch(d){
+			case GO_HELP:
+				return GO_HELP;
+				break;
 			case GET_AMMUNITION : 
 				if(enemyBeliefs.knowsAmmunitionLocation() && (!enemySight.playerInSight || ammunitionQt < 1))
 					return GET_AMMUNITION;
@@ -166,6 +177,8 @@ public class EnemyAI : MonoBehaviour
 			case KILL_ETHAN :
 				if(ammunitionQt > 0)
 					return KILL_ETHAN;
+				else
+					return ASK_HELP;
 				break;
 			case ACTIVATE_LASER :
 				if(isLaserDeactivated())
@@ -191,7 +204,7 @@ public class EnemyAI : MonoBehaviour
 	}
 	
 	void execute(int action){
-		Debug.Log(action);
+		//Debug.Log(action);
 		switch(action){
 		case GET_AMMUNITION :
 			TakeAmmunition();
@@ -215,6 +228,12 @@ public class EnemyAI : MonoBehaviour
 			break;
 		case SHOOT_ETHAN:
 			Shooting();
+			break;
+		case ASK_HELP:
+			Cooperation.askForHelp(transform.position);
+			break;
+		case GO_HELP:
+			goHelp();
 			break;
 		}
 	}
@@ -306,10 +325,14 @@ public class EnemyAI : MonoBehaviour
 	void Patrolling ()
 	{
 		nav.Resume();
-		Debug.Log("I should patroll: "+enemyBeliefs.getAreaToPatrol());
-		if(!isCloseEnough(enemyBeliefs.getAreaToPatrol(), 10)){
+		//Debug.Log("I should patroll: "+enemyBeliefs.getAreaToPatrol());
+		if(!isCloseEnough(enemyBeliefs.getAreaToPatrol(), 15)){
 			nav.destination = enemyBeliefs.getAreaToPatrol();
 		}else{
+			Vector3 newPatrollingArea = enemyBeliefs.getAreaToPatrol();
+			Cooperation.patrolling(patrollingArea, newPatrollingArea);
+			patrollingArea = newPatrollingArea;
+
 			if(!patrolling){
 				patrolling = true;
 				patrollingStartTime = Time.time;
@@ -325,5 +348,19 @@ public class EnemyAI : MonoBehaviour
 					patrolling = false;
 			}
 		}
+	}
+
+	public void goHelp(Vector3 pos){
+		helping = true;
+		helpingPos = pos;
+	}
+
+	void goHelp(){
+		if(!isCloseEnough(enemyBeliefs.getAreaToPatrol(), 1)){
+			nav.speed = chaseSpeed*2;
+			nav.destination = helpingPos;
+		}
+		else
+			helping = false;
 	}
 }
