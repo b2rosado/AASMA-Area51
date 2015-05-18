@@ -3790,7 +3790,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 89581601}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -3831,6 +3831,7 @@ MonoBehaviour:
   shotClip: {fileID: 8300000, guid: 0af3d513283ae634480aa98a0d2da839, type: 3}
   flashIntensity: 3
   fadeSpeed: 10
+  targetDrone: 0
 --- !u!114 &89581606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10232,7 +10233,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 333453613}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -10273,6 +10274,7 @@ MonoBehaviour:
   shotClip: {fileID: 8300000, guid: 0af3d513283ae634480aa98a0d2da839, type: 3}
   flashIntensity: 3
   fadeSpeed: 10
+  targetDrone: 0
 --- !u!114 &333453618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27594,7 +27596,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 894887549}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -27635,6 +27637,7 @@ MonoBehaviour:
   shotClip: {fileID: 8300000, guid: 0af3d513283ae634480aa98a0d2da839, type: 3}
   flashIntensity: 3
   fadeSpeed: 10
+  targetDrone: 0
 --- !u!114 &894887554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31095,7 +31098,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1024605604}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -31136,6 +31139,7 @@ MonoBehaviour:
   shotClip: {fileID: 8300000, guid: 0af3d513283ae634480aa98a0d2da839, type: 3}
   flashIntensity: 3
   fadeSpeed: 10
+  targetDrone: 0
 --- !u!114 &1024605610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45920,7 +45924,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1332124337}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -45961,6 +45965,7 @@ MonoBehaviour:
   shotClip: {fileID: 8300000, guid: 0af3d513283ae634480aa98a0d2da839, type: 3}
   flashIntensity: 3
   fadeSpeed: 10
+  targetDrone: 0
 --- !u!114 &1332124342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46448,6 +46453,7 @@ MonoBehaviour:
   shotClip: {fileID: 8300000, guid: 0af3d513283ae634480aa98a0d2da839, type: 3}
   flashIntensity: 3
   fadeSpeed: 10
+  targetDrone: 0
 --- !u!114 &1342607887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62086,7 +62092,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1854483760}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5292dddf9e3331d48b2a1856324ea256, type: 3}
   m_Name: 
@@ -62127,6 +62133,7 @@ MonoBehaviour:
   shotClip: {fileID: 8300000, guid: 0af3d513283ae634480aa98a0d2da839, type: 3}
   flashIntensity: 3
   fadeSpeed: 10
+  targetDrone: 0
 --- !u!114 &1854483766
 MonoBehaviour:
   m_ObjectHideFlags: 0
